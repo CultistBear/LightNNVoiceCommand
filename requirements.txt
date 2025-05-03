@@ -1,0 +1,10 @@
+cryptography==42.0.5
+Flask==3.1.0
+librosa==0.10.2.post1
+numpy==1.25.0
+pvporcupine==3.0.5
+pymongo==4.12.1
+scipy==1.15.2
+sounddevice==0.5.1
+torch==2.6.0+cu118
+transformers==4.51.0
