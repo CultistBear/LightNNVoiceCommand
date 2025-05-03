@@ -1,0 +1,300 @@
+<head>
+    <link href="/static/flowbite.min.css" rel="stylesheet" />
+    <script src="/static/monaco-editor/min/vs/loader.js"></script>
+</head>
+
+<body class="dark bg-gray-900 antialiased p-5">
+    <div id="exampleWrapper">
+        <div id="accordion-collapse" data-accordion="collapse">
+            <!-- accordion header -->
+            {% if files|length > 0 %}
+            {% for file in files %}
+            <div class="editor-wrapper">
+                <h2 id="accordion-collapse-heading-{{ loop.index }}">
+                    <form method="POST" action="{{ url_for('real_ind') }}" id="scriptForm-{{loop.index}}">
+                        <button type="button"
+                            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                            data-accordion-target="#accordion-collapse-body-{{ loop.index }}" aria-expanded="false"
+                            aria-controls="accordion-collapse-body-{{ loop.index }}">
+                            <div class="flex items-center gap-2 w-96">
+                                <label for="small-input"
+                                    class="block px-4 text-sm font-medium text-white">Keyword:</label>
+                                <input type="text" name="keyword" id="small-input"
+                                    class="block w-full p-2 text-white border border-gray-600 rounded-lg bg-gray-700 text-xs focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    onclick="event.stopPropagation()" value="{{ file['keyword'] }}">
+                            </div>
+                            <svg data-accordion-icon="" class="w-3 h-3 shrink-0 rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5 5 1 1 5"></path>
+                            </svg>
+                        </button>
+                    </h2>
+            
+                    <div id="accordion-collapse-body-{{ loop.index }}" class="hidden" aria-labelledby="accordion-collapse-heading-{{ loop.index }}">
+                        <div class="p-5 border border-b-0 border-gray-700 bg-gray-900 relative">
+                            <input type="hidden" name="index" value="{{ file['_id'] }}">
+                            <div class="flex gap-2 w-96 items-center max-w-sm pb-5">
+                                <label for="language" class="text-sm font-medium text-white flex-shrink-0">Language:</label>
+                                <select id="language" name="language"
+                                    class="language-select bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 flex-1">
+                                    <option value="cpp" {{ "selected=selected" if file['language'] == 'cpp' }}>C++</option>
+                                    <option value="java" {{ "selected=selected" if file['language'] == 'java' }}>Java</option>
+                                    <option value="javascript" {{ "selected=selected" if file['language'] == 'javascript' }}>JavaScript</option>
+                                    <option value="python" {{ "selected=selected" if file['language'] == 'python' }}>Python</option>
+                                    <option value="shell" {{ "selected=selected" if file['language'] == 'shell' }}>Shell</option>
+                                </select>
+                            </div>
+            
+                            <div class="w-full mb-4 border border-gray-700 rounded-lg bg-gray-900">
+                                <div class="px-4 py-2 rounded-t-lg bg-gray-900">
+                                    <div class="editor-container w-full h-96 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 dark:text-white"
+                                        id="editor-{{ loop.index }}" data-content="{{ file['content'] }}"></div>
+                                </div>
+            
+                                <textarea class = "editor_content" name="editor_content" id="editor-content-input-{{ loop.index }}" style="display: none;"></textarea>
+            
+                                <div class="flex items-center justify-between px-3 py-2 border-t border-gray-700">
+                                </div>
+                            </div>
+                        </form>
+                        <button type="submit" form="scriptForm-{{loop.index}}" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-900 hover:bg-blue-800">
+                            Save
+                        </button>
+                        <button type="submit" form="scriptForm-{{loop.index}}" class="absolute right-0 me-5 inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-900 hover:bg-red-800">
+                        Delete
+                      </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {%else%}
+            <div class="editor-wrapper">
+                <h2 id="accordion-collapse-heading-1">
+                    <form method="POST" action="{{ url_for('real_ind') }}" id="scriptForm-1">
+                        <button type="button"
+                            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                            data-accordion-target="#accordion-collapse-body-1" aria-expanded="false"
+                            aria-controls="accordion-collapse-body-1">
+                            <div class="flex items-center gap-2 w-96">
+                                <label for="small-input"
+                                    class="block px-4 text-sm font-medium text-white">Keyword:</label>
+                                <input type="text" name="keyword" id="small-input"
+                                    class="block w-full p-2 text-white border border-gray-600 rounded-lg bg-gray-700 text-xs focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    onclick="event.stopPropagation()">
+                            </div>
+                            <svg data-accordion-icon="" class="w-3 h-3 shrink-0 rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5 5 1 1 5"></path>
+                            </svg>
+                        </button>
+                    </h2>
+            
+                    <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
+                        <div class="p-5 border border-b-0 border-gray-700 bg-gray-900 relative">
+                            <input type="hidden" name="index" value="">
+                            <!-- lang -->
+                            <div class="flex gap-2 w-96 items-center max-w-sm pb-5">
+                                <label for="language" class="text-sm font-medium text-white flex-shrink-0">Language:</label>
+                                <select id="language" name="language"
+                                    class="language-select bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 flex-1">
+                                    <option value="cpp" >C++</option>
+                                    <option value="java" >Java</option>
+                                    <option value="javascript" >JavaScript</option>
+                                    <option value="python" >Python</option>
+                                    <option value="shell" >Shell</option>
+                                </select>
+                            </div>
+            
+                            <!-- monaco proper container -->
+                            <div class="w-full mb-4 border border-gray-700 rounded-lg bg-gray-900">
+                                <div class="px-4 py-2 rounded-t-lg bg-gray-900">
+                                    <div class="editor-container w-full h-96 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 dark:text-white"
+                                        id="editor-1" data-content=""></div>
+                                </div>
+            
+                                <!-- hidden input for monaco content -->
+                                <textarea class = "editor_content" name="editor_content" id="editor-content-input-1" style="display: none;"></textarea>
+            
+                                <div class="flex items-center justify-between px-3 py-2 border-t border-gray-700">
+                                </div>
+                            </div>
+                        </form>
+                        <button type="submit" form="scriptForm-1" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-900 hover:bg-blue-800">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {%endif%}
+            <!--complete 1 acc-->
+            <!--finish-->
+        </div>
+        <button type="button" class="mt-4 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 add-more-button">+</button>
+    </div>
+
+    <script>
+        window.editorInstances = {};
+        
+        function initializeEditor(wrapper) {
+            require(['vs/editor/editor.main'], () => {
+                const select = wrapper.querySelector('.language-select');
+                const container = wrapper.querySelector('.editor-container');
+                const content = container.getAttribute("data-content") || "";
+        
+                const editor = monaco.editor.create(container, {
+                    value: content,
+                    language: select.value,
+                    theme: 'vs-dark',
+                    automaticLayout: true,
+                    padding: { top: 8, bottom: 8 },
+                    scrollBeyondLastLine: false,
+                    minimap: { enabled: true }
+                });
+
+                window.editorInstances[container.id] = editor;
+                console.log(container.id)
+                select.addEventListener('change', (e) => {
+                    monaco.editor.setModelLanguage(editor.getModel(), e.target.value);
+                });
+        
+                container.editorInstance = editor;
+            });
+        }
+        document.addEventListener("submit", function(event) {
+            console.log(event)
+            const form = event.target.closest('form');
+            if (!form) return;
+            const wrapper = form.closest('.editor-wrapper');
+            let id=event.target.id.split("-").pop()
+            var hiddenInput = document.getElementById("editor-content-input-"+id)
+            const editorId = `editor-${id}`;
+            const editorValue = window.editorInstances[editorId].getValue();
+            form.appendChild(document.getElementById("accordion-collapse-body-"+id))
+            // extract from monaco manually and store in hidden input. nvm it worked
+            hiddenInput.value = editorValue;
+            const typeInput = document.createElement('input');
+            typeInput.type = 'text';
+            typeInput.name = 'type';
+            typeInput.value = event.submitter.innerText;
+            form.appendChild(typeInput)
+        });
+        
+        require.config({ paths: { 'vs': 'http://127.0.0.1:5000/static/monaco-editor/min/vs' } });
+        document.querySelector(".add-more-button").addEventListener("click", () => {
+            const container = document.getElementById("accordion-collapse");
+            const newIndex = container.querySelectorAll('.editor-wrapper').length + 1;
+            const newHtml = generateAccordionItem(newIndex);
+            
+            container.insertAdjacentHTML('beforeend', newHtml);
+            let newWrapper = container.lastElementChild;
+            
+            initializeEditor(newWrapper);
+        
+            let newButton = newWrapper.querySelector("button[data-accordion-target]");
+            newButton.addEventListener("click", handleAccordionClick);
+        });
+        
+        
+        // manually toggle accordian because tailwind makes my life miserable
+        function handleAccordionClick(event) {
+            const targetId = event.currentTarget.getAttribute("data-accordion-target");
+            const target = document.querySelector(targetId);
+        
+            if (target) {
+                target.classList.toggle("hidden");
+                event.currentTarget.setAttribute("aria-expanded", target.classList.contains("hidden") ? "false" : "true");
+            }
+        }        
+        
+        function generateAccordionItem(index) {
+            return `
+                <div class="editor-wrapper">
+                <h2 id="accordion-collapse-heading-${index}">
+                    <form method="POST" action="{{ url_for('real_ind') }}" id="scriptForm-${index}">
+                        <button type="button"
+                            class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3"
+                            data-accordion-target="#accordion-collapse-body-${index}" aria-expanded="false"
+                            aria-controls="accordion-collapse-body-${index}">
+                            <div class="flex items-center gap-2 w-96">
+                                <label for="small-input"
+                                    class="block px-4 text-sm font-medium text-white">Keyword:</label>
+                                <input type="text" name="keyword" id="small-input"
+                                    class="block w-full p-2 text-white border border-gray-600 rounded-lg bg-gray-700 text-xs focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    onclick="event.stopPropagation()">
+                            </div>
+                            <svg data-accordion-icon="" class="w-3 h-3 shrink-0 rotate-180" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5 5 1 1 5"></path>
+                            </svg>
+                        </button>
+                    </h2>
+            
+                    <div id="accordion-collapse-body-${index}" class="hidden" aria-labelledby="accordion-collapse-heading-${index}">
+                        <div class="p-5 border border-b-0 border-gray-700 bg-gray-900 relative">
+                            <input type="hidden" name="index" value="">
+                            <div class="flex gap-2 w-96 items-center max-w-sm pb-5">
+                                <label for="language" class="text-sm font-medium text-white flex-shrink-0">Language:</label>
+                                <select id="language" name="language"
+                                    class="language-select bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 flex-1">
+                                    <option value="cpp">C++</option>
+                                    <option value="java">Java</option>
+                                    <option value="javascript">JavaScript</option>
+                                    <option value="python">Python</option>
+                                    <option value="shell">Shell</option>
+                                </select>
+                            </div>
+            
+                            <div class="w-full mb-4 border border-gray-700 rounded-lg bg-gray-900">
+                                <div class="px-4 py-2 rounded-t-lg bg-gray-900">
+                                    <div class="editor-container w-full h-96 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 dark:text-white"
+                                        id="editor-${index}"></div>
+                                </div>
+            
+                                <textarea class = "editor_content" name="editor_content" id="editor-content-input-${index}" style="display: none;"></textarea>
+            
+                                <div class="flex items-center justify-between px-3 py-2 border-t border-gray-700">
+                                </div>
+                            </div>
+                        </form>
+                        <button type="submit" form="scriptForm-${index}" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-900 hover:bg-blue-800">
+                                        Save
+                        </button>
+                        <button type="submit" form="scriptForm-${index}" class="absolute right-0 me-5 inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-900 hover:bg-red-800">
+                        Delete
+                      </button>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            require.config({ paths: { 'vs': 'http://127.0.0.1:5000/static/monaco-editor/min/vs' } });
+            
+            require(["vs/editor/editor.main"], function() {
+                document.querySelectorAll(".editor-container").forEach((editorDiv) => {
+                    let editorId = editorDiv.id;
+                    let editorContent = editorDiv.getAttribute("data-content"); // jinja get cont
+                    let hiddenInput = document.getElementById("editor-content-input-" + editorId.split("-")[1]);
+                    let select = document.getElementById("accordion-collapse-body-"+editorId.split("-")[1]).querySelector("select")
+                    // init monaco
+                    let editor = monaco.editor.create(editorDiv, {
+                        value: editorContent, // load jinja content
+                        language: select.value, 
+                        theme: "vs-dark",
+                        automaticLayout: true
+                    });
+                    window.editorInstances[editorId] = editor;
+                    select.addEventListener('change', (e) => {
+                        monaco.editor.setModelLanguage(editor.getModel(), e.target.value);
+                    });
+                });
+            });
+        });
+    document.documentElement.classList.add('dark');
+    document.querySelectorAll('form').forEach((form)=>{form.reset()}) 
+    </script>
+    <script src="/static/flowbite.min.js"></script>
+</body>
