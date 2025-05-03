@@ -5,7 +5,7 @@ import gridfs
 import bson
 from cryptography.fernet import Fernet,  InvalidToken
 
-##!!!!!!! delete button | MAKE EVERYTHING AVAILABLE OFFLINE
+
 
 ##### mongo
 client = MongoClient("mongodb://localhost:27017/")
