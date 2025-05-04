@@ -63,8 +63,9 @@ RISABH_API_KEY_PORC   = "YOUR_PICOVOICE_ACCESS_KEY"
 Once activated, the system runs entirely offline.
 
 **5. Set up the Whisper checkpoints file path in constants**
-<pre>LATEST_TRAINED = r""</pre>
-
+```python
+LATEST_TRAINED = r""
+```
 **6. Install and start MongoDB Community Edition**
 
 macOS (Homebrew)
@@ -86,6 +87,7 @@ Ensure the MongoDB service is running.
 ```
 
 **7. Verify MongoDB connection**
+
 Confirm the server is accessible at mongodb://localhost:27017/, as used in app.py:
 
 ```python
